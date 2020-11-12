@@ -401,15 +401,24 @@ export class Utils {
 		let closestDistance = Infinity;
 		let closestIntersection = null;
 		let closestPoint = null;
+
+		let intersects = raycaster.intersectObjects(viewer.scene.scene.children, true);
+		let distance = 0;
 		
 		for(let pointcloud of pointclouds){
 			let point = pointcloud.pick(viewer, camera, ray, pickParams);
 			
 			if(!point){
-				continue;
+				if (intersects.length > 0) {
+          point = intersects[0].point;
+          point.position = point;
+          distance = intersects[0].distance;
+				} else {
+					continue;
+				}
+			} else {
+				distance = camera.position.distanceTo(point.position);
 			}
-
-			let distance = camera.position.distanceTo(point.position);
 
 			if (distance < closestDistance) {
 				closestDistance = distance;
