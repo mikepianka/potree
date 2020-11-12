@@ -64,7 +64,8 @@ export class MeasurePanel{
 		let point = this.measurement.points[0];
 
 		for (let attributeName of Object.keys(point)) {
-			if (attributeName === "position" || "x" || "y" || "z") {
+			if (['position', 'x', 'y', 'z'].includes(attributeName)) {
+				// don't show in attributes table
 				continue;
 			} else if (attributeName === "rgba") {
 				let color = point.rgba;
@@ -78,7 +79,6 @@ export class MeasurePanel{
 				`));
 			} else if (attributeName === "userData") {
 				for (const [key, value] of Object.entries(point.userData)) {
-					// console.log(`${key}: ${value}`);
 					if (key === "url") {
 						elTable.append($(`
 							<tr>
