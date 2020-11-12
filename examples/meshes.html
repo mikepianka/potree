@@ -84,7 +84,12 @@
 				mesh1 = new THREE.Mesh( geometry, material );
 				mesh1.position.set(589951.587, 231428.213, 710.634);
 				mesh1.scale.multiplyScalar(500);
-				mesh1.rotation.set(Math.PI / 2, Math.PI, 0)
+				mesh1.rotation.set(Math.PI / 2, Math.PI, 0);
+				mesh1.name = 'Bun Bun 1';
+				mesh1.userData = {
+					url: 'https://www.google.com/search?q=stanford+bunny',
+					snack: 'carrots'
+				};
 				viewer.scene.scene.add(mesh1);
 			}
 			
@@ -97,7 +102,12 @@
 				mesh2 = new THREE.Mesh( geometry, material );
 				mesh2.position.set(589851.587, 231348.213, 720.634);
 				mesh2.scale.multiplyScalar(500);
-				mesh2.rotation.set(Math.PI / 2, Math.PI, 0)
+				mesh2.rotation.set(Math.PI / 2, Math.PI, 0);
+				mesh2.name = 'Bun Bun 2';
+				mesh2.userData = {
+					url: 'https://www.google.com/search?q=stanford+bunny',
+					snack: 'carrots'
+				};
 				viewer.scene.scene.add(mesh2);
 			}
 			
@@ -112,7 +122,12 @@
 				mesh3 = new THREE.Mesh( geometry, material );
 				mesh3.position.set(589751.587, 231428.213, 725.634);
 				mesh3.scale.multiplyScalar(500);
-				mesh3.rotation.set(Math.PI / 2, Math.PI, 0)
+				mesh3.rotation.set(Math.PI / 2, Math.PI, 0);
+				mesh3.name = 'Bun Bun 3';
+				mesh3.userData = {
+					url: 'https://www.google.com/search?q=stanford+bunny',
+					snack: 'carrots'
+				};
 				viewer.scene.scene.add(mesh3);
 			}
 
@@ -178,7 +193,11 @@
 
 				object.position.set(589871.587, 231528.213, 725.634);
 				object.scale.multiplyScalar(500);
-				object.rotation.set(Math.PI / 2, Math.PI, 0)
+				object.rotation.set(Math.PI / 2, Math.PI, 0);
+				object.userData = {
+					url: 'https://www.google.com/search?q=stanford+bunny',
+					snack: 'carrots'
+				};
 
 				viewer.scene.scene.add( object );
 

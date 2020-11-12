@@ -62,11 +62,11 @@ export class MeasurePanel{
 		let elTable = $('<table class="measurement_value_table"></table>');
 
 		let point = this.measurement.points[0];
-		
-		for(let attributeName of Object.keys(point)){
-			if(attributeName === "position"){
-			
-			}else if(attributeName === "rgba"){
+
+		for (let attributeName of Object.keys(point)) {
+			if (attributeName === "position" || "x" || "y" || "z") {
+				continue;
+			} else if (attributeName === "rgba") {
 				let color = point.rgba;
 				let text = color.join(', ');
 
@@ -76,16 +76,48 @@ export class MeasurePanel{
 						<td>${text}</td>
 					</tr>
 				`));
-			}else{
-				let value = point[attributeName];
-				let text = value.join(', ');
+			} else if (attributeName === "userData") {
+				for (const [key, value] of Object.entries(point.userData)) {
+					// console.log(`${key}: ${value}`);
+					if (key === "url") {
+						elTable.append($(`
+							<tr>
+								<td>link</td>
+								<td><a href="${value}" target="_blank" rel="noopener noreferrer">Hyperlink</a></td>
+							</tr>
+						`));
+					} else {
+						elTable.append($(`
+							<tr>
+								<td>${key}</td>
+								<td>${value}</td>
+							</tr>
+						`));
+					}
+				}
+			} else{
+				try {
+					let value = point[attributeName];
+					let text = value.join(', ');
 
-				elTable.append($(`
-					<tr>
-						<td>${attributeName}</td>
-						<td>${text}</td>
-					</tr>
-				`));
+					elTable.append($(`
+						<tr>
+							<td>${attributeName}</td>
+							<td>${text}</td>
+						</tr>
+					`));
+				}
+				catch (TypeError) {
+					// attribute is not an array
+					let text = point[attributeName];
+
+					elTable.append($(`
+						<tr>
+							<td>${attributeName}</td>
+							<td>${text}</td>
+						</tr>
+					`));
+				}
 			}
 		}
 
