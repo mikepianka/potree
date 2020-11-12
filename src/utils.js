@@ -406,25 +406,49 @@ export class Utils {
 		let distance = 0;
 		
 		for(let pointcloud of pointclouds){
-			let point = pointcloud.pick(viewer, camera, ray, pickParams);
-			
-			if(!point){
-				if (intersects.length > 0) {
-          point = intersects[0].point;
-          point.position = point;
-          distance = intersects[0].distance;
-				} else {
-					continue;
-				}
-			} else {
-				distance = camera.position.distanceTo(point.position);
+			let pointOnCloud;
+			let distanceToCloud;
+			let pointOnMesh;
+			let distanceToMesh;
+
+			pointOnCloud = pointcloud.pick(viewer, camera, ray, pickParams);
+
+			if (pointOnCloud) {
+				// pointcloud moused
+				distanceToCloud = camera.position.distanceTo(pointOnCloud.position);
 			}
 
-			if (distance < closestDistance) {
-				closestDistance = distance;
+			if (intersects.length > 0) {
+				// mesh moused
+				pointOnMesh = intersects[0].point;
+				// set position attribute
+				pointOnMesh.position = pointOnMesh;
+				// set name attribute
+				pointOnMesh.name = intersects[0].object.name;
+				// set userData attribute
+				pointOnMesh.userData = intersects[0].object.userData;
+				distanceToMesh = intersects[0].distance;
+			}
+
+			if (pointOnCloud && pointOnMesh) {
+				// pointcloud and mesh moused
+				let closest = distanceToCloud < distanceToMesh ? pointOnCloud : pointOnMesh;
+				closestDistance = closest === pointOnCloud ? distanceToCloud : distanceToMesh;
 				selectedPointcloud = pointcloud;
-				closestIntersection = point.position;
-				closestPoint = point;
+				closestIntersection = closest === pointOnCloud ? pointOnCloud.position : pointOnMesh.position;
+				closestPoint = closest;
+			} else if (pointOnCloud && !pointOnMesh) {
+				// pointcloud, no mesh
+				closestDistance = distanceToCloud;
+				selectedPointcloud = pointcloud;
+				closestIntersection = pointOnCloud.position;
+				closestPoint = pointOnCloud;
+			} else if (pointOnMesh && !pointOnCloud) {
+				// mesh, no pointcloud
+				closestDistance = distanceToMesh;
+				selectedPointcloud = pointcloud;
+				closestIntersection = pointOnMesh.position;
+				closestPoint = pointOnMesh;
 			}
 		}
 
