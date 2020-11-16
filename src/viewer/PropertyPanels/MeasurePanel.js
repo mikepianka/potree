@@ -61,8 +61,6 @@ export class MeasurePanel{
 	createAttributesTable(){
 		let elTable = $('<table class="measurement_value_table"></table>');
 
-		// figure out how to clear irrelevant table attributes during cursor hover
-
 		let point = this.measurement.points[0];
 
 		for (let attributeName of Object.keys(point)) {
